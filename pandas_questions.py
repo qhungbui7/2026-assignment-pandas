@@ -156,11 +156,11 @@ def compute_referendum_result_by_regions(referendum_and_areas):
     )[['Registered', 'Abstentions', 'Null', 'Choice A', 'Choice B']].sum()
     # print('count count', counting.columns)
     # print(counting)
-    print('count count',
-        counting[
-            ['name_reg', 'Registered', 'Abstentions', 'Null', 'Choice A', 'Choice B']
-        ].columns
-    )
+    # print('count count',
+    #     counting[
+    #         ['name_reg', 'Registered', 'Abstentions', 'Null', 'Choice A', 'Choice B']
+    #     ].columns
+    # )
 
     # print("==============")
     # print(counting)
