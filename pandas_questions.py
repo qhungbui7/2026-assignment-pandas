@@ -43,12 +43,21 @@ def merge_regions_and_departments(regions, departments):
 
     # print(len(regions) + len(departments))
 
-    # print('code & region_code before merging', regions['code'].unique(), departments['region_code'].unique())
+    # print(
+    #     'code & region_code before merging',
+    #     regions['code'].unique(),
+    #     departments['region_code'].unique()
+    # )
 
     results = pd.merge(
-        left=regions, right=departments, how='inner', left_on='code', right_on='region_code',
+        left=regions,
+        right=departments,
+        how='inner',
+        left_on='code',
+        right_on='region_code',
         suffixes=('_reg', '_dep')
     )
+
     # print(results.shape)
     # print(results.columns)
     # print(results[['code_reg', 'name_reg', 'code_dep', 'name_dep']].columns)
@@ -105,12 +114,19 @@ def merge_referendum_and_areas(referendum, regions_and_departments):
         ~referendum['Department code'].str.contains('Z')
     ]
 
-    print('referendum & regions_and_departments before merging', sorted(referendum['Department code'].unique()), sorted(regions_and_departments['code_dep'].unique()))
+    # print('referendum & regions_and_departments before merging',
+    #     sorted(referendum['Department code'].unique()),
+    #     sorted(regions_and_departments['code_dep'].unique())
+    # )
 
     referendum["Department code"] = referendum["Department code"].str.zfill(2)
 
     results = pd.merge(
-        left=referendum, right=regions_and_departments, how='inner', left_on='Department code', right_on='code_dep',
+        left=referendum,
+        right=regions_and_departments,
+        how='inner',
+        left_on='Department code',
+        right_on='code_dep',
         suffixes=('_ref', '_reg')
     )
     print('after merging', results.shape)
@@ -140,7 +156,11 @@ def compute_referendum_result_by_regions(referendum_and_areas):
     )[['Registered', 'Abstentions', 'Null', 'Choice A', 'Choice B']].sum()
     # print('count count', counting.columns)
     # print(counting)
-    # print('count count', counting[['name_reg', 'Registered', 'Abstentions', 'Null', 'Choice A', 'Choice B']].columns)
+    print('count count',
+        counting[
+            ['name_reg', 'Registered', 'Abstentions', 'Null', 'Choice A', 'Choice B']
+        ].columns
+    )
 
     # print("==============")
     # print(counting)
@@ -179,11 +199,12 @@ def plot_referendum_map(referendum_result_by_regions):
         right_on='code_reg'
     )
 
-    merged_regions_geo['ratio'] = merged_regions_geo['Choice A'] / (merged_regions_geo['Choice A']  + merged_regions_geo['Choice B'])
+    merged_regions_geo['ratio'] = merged_regions_geo['Choice A'] /\
+        (merged_regions_geo['Choice A']  + merged_regions_geo['Choice B'])
 
     merged_regions_geo.plot(
         column="ratio",
-        legend=True,        
+        legend=True,
     )
 
     return merged_regions_geo
